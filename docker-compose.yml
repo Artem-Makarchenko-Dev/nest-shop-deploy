@@ -27,6 +27,7 @@ services:
       DATABASE_PASSWORD: nestpass
       DATABASE_NAME: nest_shop
       PORT: 3000
+      FRONTEND_URL: ${FRONTEND_URL}
     ports:
       - "3000:3000"
     command: ["yarn", "start:prod"]
