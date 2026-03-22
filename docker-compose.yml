@@ -1,7 +1,7 @@
+name: shop-kit
 services:
   db:
     image: postgres:16
-    container_name: nest_shop_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -12,11 +12,10 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
-  backend:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nest_shop_backend
     restart: unless-stopped
     depends_on:
       - db
