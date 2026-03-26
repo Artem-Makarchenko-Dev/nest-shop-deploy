@@ -6,11 +6,26 @@ Provides authentication, role-based access control, and product catalog manageme
 
 ## Quick Access
 
-- Swagger: https://shop-kit-api-production.up.railway.app/docs
-- Postman: <add-link>
-- Live API: https://shop-kit-api-production.up.railway.app/
+- API (Swagger): [Open Swagger Docs](https://shop-kit-api-production.up.railway.app/docs)
+
+- Postman Collection: [Open Postman Workspace](https://www.postman.com/artem3-2305/workspace/shop-kit-api)
 
 Deployment: Railway (Dockerized backend)
+
+### Quick Start
+
+1. Open Postman workspace  
+2. Run **Login** request  
+3. Access token is stored automatically  
+4. Call any protected endpoint  
+
+No setup required.
+
+## Deployment
+
+- Platform: Railway  
+- Setup: Dockerized backend  
+- URL: [API Link](https://shop-kit-api-production.up.railway.app)
 
 ## TL;DR
 
@@ -70,9 +85,10 @@ The goal is to simulate a real-world backend system, not just CRUD endpoints.
 
 The application follows a modular architecture based on NestJS:
 
-- Controllers handle HTTP requests and validation
-- Services contain business logic
-- Prisma ORM is used for database access
+- Controllers handle HTTP requests and validation  
+- Services contain business logic  
+- Prisma ORM is used for database access  
+
 The system is designed to be scalable and easy to extend with new modules.
 
 ### Architecture Style
@@ -102,6 +118,11 @@ Full API documentation is available in Swagger.
 ## Run Locally
 
 The project uses Docker and Docker Compose for local development.
+
+### Requirements
+
+- Docker  
+- Docker Compose  
 
 ### 1. Setup environment
 
@@ -143,7 +164,7 @@ The application runs in a multi-container setup (API + PostgreSQL).
 
 ## What This Project Demonstrates
 
-- Designing role-based access control systems (RBAC)
-- Implementing secure authentication with JWT and refresh tokens
-- Modeling relational data with many-to-many relationships
-- Structuring backend applications using NestJS modules
+- Designing and enforcing role-based access control (RBAC)
+- Implementing secure JWT authentication with refresh token rotation
+- Modeling relational data (many-to-many) with Prisma
+- Building scalable backend architecture using NestJS modules
