@@ -25,6 +25,7 @@ services:
       FRONTEND_URL: ${FRONTEND_URL}
       JWT_SECRET: ${JWT_SECRET}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      SWAGGER_ENABLED: 'true'
     ports:
       - "3000:3000"
 
