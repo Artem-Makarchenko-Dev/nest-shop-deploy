@@ -29,7 +29,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
   handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
-      this.logger.warn(`Unauthorized access attempt: ${info?.message || err?.message}`);
+      this.logger.warn(
+        `Unauthorized access attempt: ${info?.message || err?.message}`,
+      );
       throw new UnauthorizedException('Invalid or missing token');
     }
 

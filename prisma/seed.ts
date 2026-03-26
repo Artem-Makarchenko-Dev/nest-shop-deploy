@@ -10,7 +10,6 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('Starting database seed...');
 
-  // --- Roles ---
   const rolesData = [
     { name: 'ADMIN', description: 'Full system access' },
     { name: 'MANAGER', description: 'Manage products and users' },
@@ -26,7 +25,6 @@ async function main() {
   }
   console.log('Roles seeded');
 
-  // --- Users ---
   const passwords = await Promise.all([
     bcrypt.hash('admin123', 10),
     bcrypt.hash('manager123', 10),
@@ -48,7 +46,6 @@ async function main() {
   }
   console.log('Users seeded');
 
-  // --- UserRoles ---
   const [admin, manager, user] = await Promise.all([
     prisma.user.findUnique({ where: { email: 'admin@example.com' } }),
     prisma.user.findUnique({ where: { email: 'manager@example.com' } }),
@@ -80,7 +77,6 @@ async function main() {
   }
   console.log('UserRoles seeded');
 
-  // --- Categories ---
   const categoriesData = [
     { slug: 'electronics', name: 'Electronics', description: 'Devices and gadgets' },
     { slug: 'jewelery', name: 'Jewelery', description: 'Rings, necklaces, and more' },
@@ -97,7 +93,6 @@ async function main() {
   }
   console.log('Categories seeded');
 
-  // --- Products ---
   const productsData = [
     {
       id: 1,

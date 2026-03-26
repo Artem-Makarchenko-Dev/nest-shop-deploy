@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ResponseRoleDto } from '../roles/dto/response-role.dto';
 import { RolesService } from '../roles/roles.service';
@@ -27,20 +31,28 @@ export class UserRolesService {
     });
   }
 
-  private async getUserRoleRelation(userId: number): Promise<ResponseRoleDto[]> {
+  private async getUserRoleRelation(
+    userId: number,
+  ): Promise<ResponseRoleDto[]> {
     const roles = await this.prisma.role.findMany({
       where: { userRole: { some: { userId } } },
       include: { userRole: true },
     });
 
-    return roles.map(({ id, name, description }) => ({ id, name, description }));
+    return roles.map(({ id, name, description }) => ({
+      id,
+      name,
+      description,
+    }));
   }
 
   async assignRoleToUser(userId: number, roleId: number) {
     const existingRole = await this.findUserRole(userId, roleId);
 
     if (existingRole) {
-      throw new ConflictException(`User with id ${userId} already has role ${roleId}`);
+      throw new ConflictException(
+        `User with id ${userId} already has role ${roleId}`,
+      );
     }
 
     await this.prisma.userRole.create({
@@ -54,7 +66,9 @@ export class UserRolesService {
     const existingRole = await this.findUserRole(userId, roleId);
 
     if (!existingRole) {
-      throw new NotFoundException(`User with id ${userId} does not have role with id ${roleId}`);
+      throw new NotFoundException(
+        `User with id ${userId} does not have role with id ${roleId}`,
+      );
     }
 
     await this.prisma.userRole.delete({

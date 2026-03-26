@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
@@ -28,7 +32,9 @@ export class RolesService {
       return await this.prisma.role.create({ data: dto });
     } catch (error: any) {
       if (error?.code === 'P2002') {
-        throw new ConflictException(`Role with name "${dto.name}" already exists`);
+        throw new ConflictException(
+          `Role with name "${dto.name}" already exists`,
+        );
       }
       throw error;
     }

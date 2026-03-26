@@ -30,13 +30,17 @@ export class AuthService {
 
   async login(user: SafeUser): Promise<AuthResult> {
     const userWithRoles = await this.usersService.findOneWithRoles(user.id);
-    const roles = userWithRoles.userRoles.map((ur: UserRole & { role: Role }) => ur.role.name);
+    const roles = userWithRoles.userRoles.map(
+      (ur: UserRole & { role: Role }) => ur.role.name,
+    );
 
     const payload: JwtPayload = { sub: user.id, email: user.email, roles };
     const tokens = this.generateTokens(payload);
 
     const hashedRefreshToken = await bcrypt.hash(tokens.refreshToken, 10);
-    await this.usersService.update(user.id, { refreshToken: hashedRefreshToken });
+    await this.usersService.update(user.id, {
+      refreshToken: hashedRefreshToken,
+    });
 
     return { ...tokens, user: { ...user, roles } };
   }
@@ -52,7 +56,8 @@ export class AuthService {
     }
 
     const isValid = await bcrypt.compare(token, user.refreshToken);
-    if (!isValid) throw new UnauthorizedException('Invalid or expired refresh token');
+    if (!isValid)
+      throw new UnauthorizedException('Invalid or expired refresh token');
 
     const { password, ...safeUser } = user;
     return safeUser as SafeUser;

@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CategoryResponseDto } from '../categories/dto/category-response.dto';
 import { CategoriesService } from '../categories/categories.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -13,9 +17,13 @@ export class ProductCategoriesService {
     private readonly categoriesService: CategoriesService,
   ) {}
 
-  private async ensureProductAndCategoryExist(productId: number, categoryId: number) {
+  private async ensureProductAndCategoryExist(
+    productId: number,
+    categoryId: number,
+  ) {
     const product = await this.productsService.getExistingProduct(productId);
-    const category = await this.categoriesService.getExistingCategory(categoryId);
+    const category =
+      await this.categoriesService.getExistingCategory(categoryId);
     return { product, category };
   }
 
@@ -28,7 +36,9 @@ export class ProductCategoriesService {
     });
   }
 
-  private async getCategoriesForProductRelation(productId: number): Promise<CategoryResponseDto[]> {
+  private async getCategoriesForProductRelation(
+    productId: number,
+  ): Promise<CategoryResponseDto[]> {
     const categories = await this.prisma.category.findMany({
       where: { products: { some: { productId } } },
     });
@@ -44,7 +54,10 @@ export class ProductCategoriesService {
   }
 
   async assignCategoryToProduct(productId: number, categoryId: number) {
-    const existingRelation = await this.findProductCategory(productId, categoryId);
+    const existingRelation = await this.findProductCategory(
+      productId,
+      categoryId,
+    );
     if (existingRelation) {
       throw new ConflictException(
         `Product with id ${productId} already has category ${categoryId}`,
@@ -59,7 +72,10 @@ export class ProductCategoriesService {
   }
 
   async removeCategoryFromProduct(productId: number, categoryId: number) {
-    const existingRelation = await this.findProductCategory(productId, categoryId);
+    const existingRelation = await this.findProductCategory(
+      productId,
+      categoryId,
+    );
     if (!existingRelation) {
       throw new NotFoundException(
         `Product with id ${productId} does not have category with id ${categoryId}`,
@@ -75,12 +91,16 @@ export class ProductCategoriesService {
     return this.getCategoriesForProductRelation(productId);
   }
 
-  async getCategoriesForProduct(productId: number): Promise<CategoryResponseDto[]> {
+  async getCategoriesForProduct(
+    productId: number,
+  ): Promise<CategoryResponseDto[]> {
     await this.productsService.getExistingProduct(productId);
     return this.getCategoriesForProductRelation(productId);
   }
 
-  async getProductsForCategory(categoryId: number): Promise<ProductWithCategoriesDto[]> {
+  async getProductsForCategory(
+    categoryId: number,
+  ): Promise<ProductWithCategoriesDto[]> {
     await this.categoriesService.getExistingCategory(categoryId);
 
     const products = await this.prisma.product.findMany({
