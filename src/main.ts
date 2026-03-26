@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import { setupSwagger } from './common/swagger/setup-swagger';
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ async function bootstrap() {
   });
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+
+  setupSwagger(app);
 
   await app.listen(process.env.PORT ?? 3000);
 }
